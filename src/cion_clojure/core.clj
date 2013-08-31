@@ -9,10 +9,21 @@
    :content-type "text/plain"
    :accept :xml}))
    
-(defn get-project-names []
+(defn create-projects [project-names]
+	(map create-project project-names))
+
+(defn extract-name [node]
+	(:name (:attrs node)))
+	
+(defn project-names-xml []
 	(parse-str (:body (client/get "http://ivan:password@localhost:8080/httpAuth/app/rest/projects/"))))
-  
+
+(defn get-project-names []
+	(map extract-name (:content (project-names-xml))))
+
+(defn quoted [s]
+	(str "\"" s "\""))
+
 (defn -main [& args]
   (alter-var-root #'*read-eval* (constantly false))
-  (println "Hello, World!")
-  (get-project-names))
+  (println (str "(create-projects (list " (clojure.string/join " " (map quoted (get-project-names))) "))")))
