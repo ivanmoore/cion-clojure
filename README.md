@@ -6,13 +6,11 @@ At the moment, it will be written in clojure and support TeamCity.
 
 ## Installation
 
-Download from https://github.com/ivanmoore/cion-clojure
+    $ git clone https://github.com/ivanmoore/cion-clojure
 
 ## Usage
 
-FIXME: explanation
-
-    $ java -jar cion-clojure-0.1.0-standalone.jar [args]
+    $ lein run
 
 ## Options
 

@@ -16,4 +16,3 @@
   (alter-var-root #'*read-eval* (constantly false))
   (println "Hello, World!")
   (get-project-names))
-   
