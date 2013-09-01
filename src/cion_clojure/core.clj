@@ -3,23 +3,23 @@
   (:require [clj-http.client :as client])
   (:use [clojure.data.xml], [clojure.tools.cli :only [cli]]))
 
-(defn create-project [project-name]
-  (client/post "http://ivan:password@localhost:8080/httpAuth/app/rest/projects/"
+(defn create-project [project-name ci-server-url]
+  (client/post (str ci-server-url "/httpAuth/app/rest/projects")
   {:body project-name
    :content-type "text/plain"
    :accept :xml}))
    
-(defn create-projects [project-names]
-	(map create-project project-names))
+(defn create-projects [project-names ci-server-url]
+	(map create-project project-names ci-server-url))
 
 (defn extract-name [node]
 	(:name (:attrs node)))
 	
-(defn project-names-xml []
-	(parse-str (:body (client/get "http://ivan:password@localhost:8080/httpAuth/app/rest/projects/"))))
+(defn project-names-xml [ci-server-url]
+	(parse-str (:body (client/get (str ci-server-url "/httpAuth/app/rest/projects")))))
 
-(defn get-project-names []
-	(map extract-name (:content (project-names-xml))))
+(defn get-project-names [ci-server-url]
+	(map extract-name (:content (project-names-xml ci-server-url))))
 
 (defn quoted [s]
 	(str "\"" s "\""))
@@ -36,7 +36,7 @@
 		(def command-line-values
 			(first command-line-options))
 		(if (= (:file command-line-values) "")
-			(println (str "(create-projects (list " (clojure.string/join " " (map quoted (get-project-names))) "))"))
+			(println (str "(create-projects (list " (clojure.string/join " " (map quoted (get-project-names (:url command-line-values)))) "))"))
 			(print command-line-values))
 	)
   )
