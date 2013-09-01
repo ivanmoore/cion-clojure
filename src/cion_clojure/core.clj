@@ -37,7 +37,4 @@
 			(first command-line-options))
 		(if (= (:file command-line-values) "")
 			(println (str "(create-projects (list " (clojure.string/join " " (map quoted (get-project-names (:url command-line-values)))) "))"))
-			(print command-line-values))
-	)
-  )
-)
+			(eval (read-string (slurp (:file command-line-values))))))))
