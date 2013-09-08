@@ -1,0 +1,1 @@
+lein run -u "http://ivan:password@localhost:8080"

@@ -36,5 +36,9 @@
 		(def command-line-values
 			(first command-line-options))
 		(if (= (:file command-line-values) "")
-			(println (str "(create-projects (list " (clojure.string/join " " (map quoted (get-project-names (:url command-line-values)))) "))"))
-			(eval (read-string (slurp (:file command-line-values))))))))
+			(do
+				(def project-names (get-project-names (:url command-line-values)))
+				(defn project-as-json [project-name]
+					(str "{	\"project\": { \"name\": " (quoted project-name) "}}"))
+				(println "{ \"projects\" : [" (clojure.string/join ",\n " (map project-as-json project-names)) "] }"))
+			(println (slurp (:file command-line-values)))))))
