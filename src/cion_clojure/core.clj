@@ -44,4 +44,5 @@
 				(do
 					(def projects (map :project (:projects (json/read-str (slurp (:file command-line-values)) :key-fn keyword))))
 					(def project-names (map :name projects))
-					(print project-names))))))
+					(defn create-project-on-ci-server [project-name] (create-project project-name ci-server-url))
+					(map create-project-on-ci-server project-names))))))
