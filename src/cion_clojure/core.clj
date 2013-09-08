@@ -1,6 +1,7 @@
 (ns cion-clojure.core
   (:gen-class)
   (:require [clj-http.client :as client])
+  (:require [clojure.data.json :as json])
   (:use [clojure.data.xml], [clojure.tools.cli :only [cli]]))
 
 (defn create-project [project-name ci-server-url]
@@ -41,4 +42,6 @@
 				(defn project-as-json [project-name]
 					(str "{	\"project\": { \"name\": " (quoted project-name) "}}"))
 				(println "{ \"projects\" : [" (clojure.string/join ",\n " (map project-as-json project-names)) "] }"))
-			(println (slurp (:file command-line-values)))))))
+			(do
+				(def projects (:projects (json/read-str (slurp (:file command-line-values)) :key-fn keyword)))
+				(println projects))))))
