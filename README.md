@@ -7,18 +7,12 @@ At the moment, it will be written in clojure and support TeamCity.
 ## Installation
 
     $ git clone https://github.com/ivanmoore/cion-clojure
+	
+Also - install http://leiningen.org/
 
 ## Usage
 
     $ lein run
-
-## Options
-
-This app has no options
-
-## Examples
-
-...
 
 ## License
 
